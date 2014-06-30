@@ -1,9 +1,9 @@
 //
-//  UIWebView-HTML5.h
+//  UIWebView+HTML5.h
 //  WebViewJS
 //
-//  Created by dllanou on 14-6-30.
-//  Copyright (c) 2014年 lanou. All rights reserved.
+//  Created by 杜子兮(duzixi) on 14-6-30.
+//  Copyright (c) 2014年 lanou3g.com 蓝鸥. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
