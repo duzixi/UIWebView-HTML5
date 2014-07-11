@@ -1,7 +1,8 @@
 //
 //  UIWebView+HTML5.m
 //
-//  Created by 杜子兮 on 14-6-30.
+//  Created by 杜子兮(duzixi) on 14-6-30.
+//  Edited  by 杜子兮(duzixi) on 14-7-11. 修改网页图片显示大小
 //  Copyright (c) 2014年 lanou3g.com 蓝鸥. All rights reserved.
 //
 
@@ -9,6 +10,9 @@
 #import "UIColor+Change.h"
 
 @implementation UIWebView (JavaScript)
+
+#pragma mark -
+#pragma mark 获取网页中的数据
 
 ///  获取某个标签的结点个数
 - (int)nodeCountOfTag:(NSString *)tag
@@ -56,6 +60,9 @@
     return arrOnClicks;
 }
 
+#pragma mark -
+#pragma mark 改变网页样式和行为
+
 ///  改变背景颜色
 - (void)setBackgroundColor:(UIColor *)color
 {
@@ -63,14 +70,32 @@
     [self stringByEvaluatingJavaScriptFromString:jsString];
 }
 
-///  为所有图片添加点击事件(网页中有些图片添加无效)
+///  为所有图片添加点击事件(网页中有些图片添加无效,需要协议方法配合截取)
 - (void)addClickEventOnImg
 {
     for (int i = 0; i < [self nodeCountOfTag:@"img"]; i++) {
         //利用重定向获取img.src，为区分，给url添加'img:'前缀
         NSString *jsString = [NSString stringWithFormat:
             @"document.getElementsByTagName('img')[%d].onclick = \
-              function() { document.location.href = 'img:' + this.src; }",i];
+              function() { document.location.href = 'img' + this.src; }",i];
+        [self stringByEvaluatingJavaScriptFromString:jsString];
+    }
+}
+
+///  改变所有图像的宽度
+- (void) setImgWidth:(int)size
+{
+    for (int i = 0; i < [self nodeCountOfTag:@"img"]; i++) {
+        NSString *jsString = [NSString stringWithFormat:@"document.getElementsByTagName('img')[%d].width = '%d'", i, size];
+        [self stringByEvaluatingJavaScriptFromString:jsString];
+    }
+}
+
+///  改变所有图像的高度
+- (void) setImgHeight:(int)size
+{
+    for (int i = 0; i < [self nodeCountOfTag:@"img"]; i++) {
+        NSString *jsString = [NSString stringWithFormat:@"document.getElementsByTagName('img')[%d].height = '%d'", i, size];
         [self stringByEvaluatingJavaScriptFromString:jsString];
     }
 }
