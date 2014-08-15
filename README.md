@@ -1,4 +1,13 @@
 UIWebView-HTML5
 ===============
 
-UIWebView category about HTML5 methods including JavaScript, canvas API and others(comming soon...).
+This project is a UIWebView category about HTML5 methods including basic JavaScript functions, canvas API and others(comming soon...).
+
+
+Note: This category should be used with "UIColor+change.h" Cataeory together 
+
+which can be found in another project named "UIColor-change":
+
+https://github.com/duzixi/UIColor-Change
+
+
