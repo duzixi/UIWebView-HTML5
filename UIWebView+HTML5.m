@@ -1,9 +1,11 @@
 //
 //  UIWebView+HTML5.m
 //
-//  Created by 杜子兮(duzixi) on 14-6-30.
-//  Edited  by 杜子兮(duzixi) on 14-7-11. 修改网页图片显示大小
-//  Edited  by 杜子兮(duzixi) on 14-7-26. 添加 canvas API 类目
+//  14-06-30. Created by 杜子兮(duzixi.com)
+//  14-07-11. 修改网页图片显示大小
+//  14-07-26. 添加 canvas API 类目
+//  14-11-05. 完善改变图片高度和宽度实现
+//
 //  Copyright (c) 2014年 lanou3g.com 蓝鸥. All rights reserved.
 //
 
@@ -89,6 +91,10 @@
     for (int i = 0; i < [self nodeCountOfTag:@"img"]; i++) {
         NSString *jsString = [NSString stringWithFormat:@"document.getElementsByTagName('img')[%d].width = '%d'", i, size];
         [self stringByEvaluatingJavaScriptFromString:jsString];
+    
+        jsString = [NSString stringWithFormat:@"document.getElementsByTagName('img')[%d].style.width = '%dpx'", i, size];
+        [self stringByEvaluatingJavaScriptFromString:jsString];
+        
     }
 }
 
@@ -97,6 +103,9 @@
 {
     for (int i = 0; i < [self nodeCountOfTag:@"img"]; i++) {
         NSString *jsString = [NSString stringWithFormat:@"document.getElementsByTagName('img')[%d].height = '%d'", i, size];
+        [self stringByEvaluatingJavaScriptFromString:jsString];
+        
+        jsString = [NSString stringWithFormat:@"document.getElementsByTagName('img')[%d].style.height = '%dpx'", i, size];
         [self stringByEvaluatingJavaScriptFromString:jsString];
     }
 }
