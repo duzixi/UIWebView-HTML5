@@ -4,7 +4,7 @@
 //  14-06-30. Created by 杜子兮(duzixi.com)
 //  14-07-11. 修改网页图片显示大小
 //  14-07-26. 添加 canvas API 类目
-//  14-11-05. 完善改变图片高度和宽度实现
+//  14-11-05. 完善改变图片高度和宽度实现; 针对iOS8类型检测进行完善
 //
 //  Copyright (c) 2014年 lanou3g.com 蓝鸥. All rights reserved.
 //
@@ -142,11 +142,11 @@
 {
     NSString *jsString = [NSString stringWithFormat:
                           @"var canvas = document.createElement('canvas');"
-                          "canvas.id = %@; canvas.width = %d; canvas.height = %d;"
+                          "canvas.id = %@; canvas.width = %ld; canvas.height = %ld;"
                           "document.body.appendChild(canvas);"
                           "var g = canvas.getContext('2d');"
-                          "g.strokeRect(%d,%d,%d,%d);",
-                          canvasId, width, height, 0 ,0 ,width,height];
+                          "g.strokeRect(%ld,%ld,%ld,%ld);",
+                          canvasId, (long)width, (long)height, 0L ,0L ,(long)width,(long)height];
     [self stringByEvaluatingJavaScriptFromString:jsString];
 }
 
@@ -156,14 +156,14 @@
     //[self createCanvas:canvasId width:width height:height];
     NSString *jsString = [NSString stringWithFormat:
                           @"var canvas = document.createElement('canvas');"
-                          "canvas.id = %@; canvas.width = %d; canvas.height = %d;"
+                          "canvas.id = %@; canvas.width = %ld; canvas.height = %ld;"
                           "canvas.style.position = 'absolute';"
-                          "canvas.style.top = '%d';"
-                          "canvas.style.left = '%d';"
+                          "canvas.style.top = '%ld';"
+                          "canvas.style.left = '%ld';"
                           "document.body.appendChild(canvas);"
                           "var g = canvas.getContext('2d');"
-                          "g.strokeRect(%d,%d,%d,%d);",
-                          canvasId, width, height, y, x, 0 ,0 ,width,height];
+                          "g.strokeRect(%ld,%ld,%ld,%ld);",
+                          canvasId, (long)width, (long)height, (long)y, (long)x, 0L ,0L ,(long)width,(long)height];
     [self stringByEvaluatingJavaScriptFromString:jsString];
 }
 
@@ -175,8 +175,8 @@
                           @"var canvas = document.getElementById('%@');"
                           "var context = canvas.getContext('2d');"                          
                           "context.fillStyle = '%@';"
-                          "context.fillRect(%d,%d,%d,%d);"
-                          ,canvasId, [color canvasColorString], x, y, width, height];
+                          "context.fillRect(%ld,%ld,%ld,%ld);"
+                          ,canvasId, [color canvasColorString], (long)x, (long)y, (long)width, (long)height];
     [self stringByEvaluatingJavaScriptFromString:jsString];
 }
 
@@ -187,9 +187,9 @@
                           @"var canvas = document.getElementById('%@');"
                           "var context = canvas.getContext('2d');"
                           "context.strokeStyle = '%@';"
-                          "context.lineWidth = '%d';"
-                          "context.strokeRect(%d,%d,%d,%d);"
-                          ,canvasId, [color canvasColorString], lineWidth, x, y, width, height];
+                          "context.lineWidth = '%ld';"
+                          "context.strokeRect(%ld,%ld,%ld,%ld);"
+                          ,canvasId, [color canvasColorString], (long)lineWidth, (long)x, (long)y, (long)width, (long)height];
     [self stringByEvaluatingJavaScriptFromString:jsString];
 }
 
@@ -199,8 +199,8 @@
     NSString *jsString = [NSString stringWithFormat:
                           @"var canvas = document.getElementById('%@');"
                           "var context = canvas.getContext('2d');"
-                          "context.clearRect(%d,%d,%d,%d);"
-                          ,canvasId, x, y, width, height];
+                          "context.clearRect(%ld,%ld,%ld,%ld);"
+                          ,canvasId, (long)x, (long)y, (long)width, (long)height];
     [self stringByEvaluatingJavaScriptFromString:jsString];
 }
 
@@ -211,11 +211,11 @@
                           @"var canvas = document.getElementById('%@');"
                           "var context = canvas.getContext('2d');"
                           "context.beginPath();"
-                          "context.arc(%d,%d,%d,%f,%f,%@);"
+                          "context.arc(%ld,%ld,%ld,%f,%f,%@);"
                           "context.closePath();"
                           "context.fillStyle = '%@';"
                           "context.fill();",
-                          canvasId, x, y, r, startAngle, endAngle, anticlockwise ? @"true" : @"false", [color canvasColorString]];
+                          canvasId, (long)x, (long)y, (long)r, startAngle, endAngle, anticlockwise ? @"true" : @"false", [color canvasColorString]];
     [self stringByEvaluatingJavaScriptFromString:jsString];
 }
 
@@ -226,13 +226,13 @@
                           @"var canvas = document.getElementById('%@');"
                           "var context = canvas.getContext('2d');"
                           "context.beginPath();"
-                          "context.moveTo(%d,%d);"
-                          "context.lineTo(%d,%d);"
+                          "context.moveTo(%ld,%ld);"
+                          "context.lineTo(%ld,%ld);"
                           "context.closePath();"
                           "context.strokeStyle = '%@';"
-                          "context.lineWidth = %d;"
+                          "context.lineWidth = %ld;"
                           "context.stroke();",
-                          canvasId, x1, y1, x2, y2, [color canvasColorString], lineWidth];
+                          canvasId, (long)x1, (long)y1, (long)x2, (long)y2, [color canvasColorString], (long)lineWidth];
     [self stringByEvaluatingJavaScriptFromString:jsString];
 }
 
@@ -252,9 +252,9 @@
     
     jsString = [jsString stringByAppendingFormat:@""
                 "context.strokeStyle = '%@';"
-                "context.lineWidth = %d;"
+                "context.lineWidth = %ld;"
                 "context.stroke();",
-                [color canvasColorString], lineWidth];
+                [color canvasColorString], (long)lineWidth];
     [self stringByEvaluatingJavaScriptFromString:jsString];
 }
 
@@ -275,12 +275,12 @@
                           @"var canvas = document.getElementById('%@');"
                           "var context = canvas.getContext('2d');"
                           "context.beginPath();"
-                          "context.moveTo(%d,%d);"
-                          "context.bezierCurveTo(%d,%d,%d,%d,%d,%d);"
+                          "context.moveTo(%ld,%ld);"
+                          "context.bezierCurveTo(%ld,%ld,%ld,%ld,%ld,%ld);"
                           "context.strokeStyle = '%@';"
-                          "context.lineWidth = %d;"
+                          "context.lineWidth = %ld;"
                           "context.stroke();",
-                          canvasId, x1, y1, cp1x, cp1y, cp2x, cp2y, x2, y2, [color canvasColorString], lineWidth];
+                          canvasId, (long)x1, (long)y1, (long)cp1x, (long)cp1y, (long)cp2x, (long)cp2y, (long)x2, (long)y2, [color canvasColorString], (long)lineWidth];
     [self stringByEvaluatingJavaScriptFromString:jsString];
 }
 
@@ -301,9 +301,10 @@
                           "image.src = '%@';"
                           "var canvas = document.getElementById('%@');"
                           "var context = canvas.getContext('2d');"
-                          "context.drawImage(image,%d,%d,%d,%d,%d,%d,%d,%d)",
-                          src, canvasId, sx, sy, sw, sh, dx, dy, dw, dh];
+                          "context.drawImage(image,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld)",
+                          src, canvasId, (long)sx, (long)sy, (long)sw, (long)sh, (long)dx, (long)dy, (long)dw, (long)dh];
     [self stringByEvaluatingJavaScriptFromString:jsString];
 }
 
 @end
+
